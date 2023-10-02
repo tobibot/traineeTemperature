@@ -7,6 +7,8 @@ on:
   push:
     branches:
       - main
+    paths:
+      - WebAPI
   workflow_dispatch:
 
 jobs:
