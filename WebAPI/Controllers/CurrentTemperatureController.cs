@@ -26,7 +26,7 @@ public class CurrentTemperatureController : ControllerBase
         else if (monthNumber >= 7 && monthNumber < 10)   
             avgTemp = 21;
         else if (monthNumber >= 10 && monthNumber < 13)  
-            avgTemp = 11;
+            avgTemp = 13;
 
 
         return Math.Round(Random.Shared.NextDouble() * 2, 2) + avgTemp;
