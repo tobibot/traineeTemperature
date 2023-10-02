@@ -6,9 +6,9 @@ name: Build and deploy ASP.Net Core app to Azure Web App - CurrentTemperatureAPI
 on:
   push:
     branches:
-      - main
+    - main
     paths:
-      - WebAPI
+    - WebAPI
   workflow_dispatch:
 
 jobs:
