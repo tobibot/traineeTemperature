@@ -18,7 +18,7 @@ public class CurrentTemperatureController : ControllerBase
     public double Get()
     {
         var monthNumber = DateTime.Today.Month;
-        var avgTemp = 6;
+        var avgTemp = 3.14;
         if (monthNumber < 4)
             avgTemp = 5;
         else if (monthNumber >= 4 && monthNumber < 7)
