@@ -1,0 +1,55 @@
+﻿@page "/counter"
+
+<PageTitle>Current Temperature</PageTitle>
+
+<h1>Current Temperature</h1>
+
+<p role="status">Current Temperature @currentTemperature</p>
+<p role="status">Last refresh: @lastRefresh</p>
+
+@code {
+    private double currentTemperature = 3.14;
+    private DateTime lastRefresh;
+
+    private Timer timer;
+
+    private static HttpClient sharedClient = new()
+    {
+        BaseAddress = new Uri(GetBaseUrl()),
+    };
+
+
+    protected override void OnInitialized()
+    {
+        timer = new Timer(RefreshTimerTick, null, 0, 6_000);
+        GetCurrentTemperature();
+        base.OnInitialized();
+    }
+
+    private void RefreshTimerTick(object? state)
+    {
+        GetCurrentTemperature();
+    }
+
+    private void GetCurrentTemperature()
+    {
+        using HttpResponseMessage response = sharedClient.GetAsync("currenttemperature").GetAwaiter().GetResult();
+
+        response.EnsureSuccessStatusCode();
+
+        var jsonResponse = response.Content.ReadAsStringAsync().GetAwaiter().GetResult();
+
+        currentTemperature = double.Parse(jsonResponse.Replace(".", ","));
+        lastRefresh = DateTime.Now;
+
+        InvokeAsync(() => StateHasChanged());
+
+    }
+
+    private static string GetBaseUrl()
+    {
+    // ToDo: if debug
+        return "https://currenttemperatureapi.azurewebsites.net";
+    }
+
+}
